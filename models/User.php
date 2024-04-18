@@ -248,7 +248,7 @@ class User extends ActiveRecord implements IdentityInterface
 	 */
 	public function getProfileFieldValue()
 	{
-		return $this->hasOne(ProfileFieldValue::className(), ['id' => 'user_id']);
+		return $this->hasOne(ProfileFieldValue::class, ['id' => 'user_id']);
 	}
 
 	public function beforeValidate()

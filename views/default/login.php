@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?= $form->field($model, 'password', ['options' => ['class' => 'form-group input-group input-group-lg'], 'template' => '<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>{input}'])->passwordInput(['placeholder' => $model->getAttributeLabel('password')]) ?>
 	<?php if ($model->scenario == 'withCaptcha'): ?>
 		<?=
-		$form->field($model, 'verifyCode')->widget(Captcha::className(), ['captchaAction' => 'default/captcha', 'options' => ['class' => 'form-control'],]) ?>
+		$form->field($model, 'verifyCode')->widget(Captcha::class, ['captchaAction' => 'default/captcha', 'options' => ['class' => 'form-control'],]) ?>
 	<?php endif; ?>
 
 	<?= $form->field($model, 'rememberMe')->checkbox() ?>

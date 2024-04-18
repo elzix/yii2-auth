@@ -10,7 +10,6 @@ namespace auth\controllers;
 
 use Yii;
 use yii\web\Controller;
-use yii\helpers\Security;
 use auth\models\User;
 use yii\web\NotFoundHttpException;
 
@@ -39,7 +38,7 @@ class ProfileController extends Controller
 	{
 		return [
 			'access' => [
-				'class' => \yii\filters\AccessControl::className(),
+				'class' => \yii\filters\AccessControl::class,
 				'rules' => [
 					[
 						'allow' => true,

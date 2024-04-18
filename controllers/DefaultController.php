@@ -6,11 +6,10 @@ use auth\models\PasswordResetRequestForm;
 use auth\models\ResetPasswordForm;
 use auth\models\SignupForm;
 use Yii;
+use yii\base\InvalidArgumentException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
-use yii\helpers\Security;
 use auth\models\LoginForm;
-use auth\models\User;
 
 class DefaultController extends Controller
 {
@@ -130,7 +129,7 @@ class DefaultController extends Controller
 	{
 		try {
 			$model = new ResetPasswordForm($token);
-		} catch (InvalidParamException $e) {
+		} catch (InvalidArgumentException $e) {
 			throw new BadRequestHttpException($e->getMessage());
 		}
 
