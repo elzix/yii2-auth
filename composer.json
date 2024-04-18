@@ -1,5 +1,5 @@
 {
-  "name": "robregonm/yii2-auth",
+  "name": "elzix/yii2-auth",
   "description": "Yii 2 User Authentication & Role Based Access Control (RBAC) Module",
   "keywords": [
     "yii",
@@ -38,7 +38,8 @@
     "yiisoft/yii2-bootstrap5": "*",
     "yiisoft/yii2-composer": "*",
     "yiisoft/yii2-swiftmailer": "*",
-    "himiklab/yii2-recaptcha-widget": "*"
+    "himiklab/yii2-recaptcha-widget": "*",
+    "robregonm/yii2-auth": "dev-bootstrap5"
   },
   "repositories": [
     {
