@@ -1,7 +1,10 @@
-Auth Module
-===========
+# Auth Module
 
 Auth Module is a flexible user registration, authentication & RBAC module for Yii2. It provides user authentication, registration and RBAC support to your Yii2 site.
+
+# Tribute
+
+This project is forked from robregonm/yii2-auth. The basic functionality is the same, but some modifications have been made to make it compatible with Yii2 v2.0.49.3.
 
 ## Installation
 
@@ -10,13 +13,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-$ php composer.phar require robregonm/yii2-auth "*"
+$ php composer.phar require elzix/yii2-auth:dev-master
 ```
 
 or add
 
 ```
-"robregonm/yii2-auth": "*"
+"elzix/yii2-auth": "dev-master"
 ```
 
 to the require section of your `composer.json` file.
@@ -84,11 +87,11 @@ Auth module is released under the BSD-3 License. See the bundled `LICENSE.md` fo
 
 ## URLs
 
-* Login: `yourhost/auth/default/login`
-* Logout: `yourhost/auth/default/logout`
-* Sign-up: `yourhost/auth/default/signup`
-* Reset Password: `yourhost/auth/default/reset-password`
-* User management: `yourhost/auth/user/index`
-* User profile: `yourhost/auth/profile/view`
+- Login: `yourhost/auth/default/login`
+- Logout: `yourhost/auth/default/logout`
+- Sign-up: `yourhost/auth/default/signup`
+- Reset Password: `yourhost/auth/default/reset-password`
+- User management: `yourhost/auth/user/index`
+- User profile: `yourhost/auth/profile/view`
 
-[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=robregonm&url=https://github.com/robregonm/yii2-auth&title=Yii2-PDF&language=&tags=github&category=software) 
+[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=robregonm&url=https://github.com/robregonm/yii2-auth&title=Yii2-PDF&language=&tags=github&category=software)
