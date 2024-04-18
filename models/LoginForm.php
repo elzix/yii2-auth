@@ -5,6 +5,7 @@ namespace auth\models;
 use Yii;
 use yii\base\Model;
 use auth\models\User;
+use yii\captcha\CaptchaValidator;
 
 /**
  * LoginForm is the model behind the login form.
@@ -30,7 +31,7 @@ class LoginForm extends Model
 			['password', 'validatePassword'],
 			// rememberMe must be a boolean value
 			['rememberMe', 'boolean'],
-            		[['verifyCode'], \himiklab\yii2\recaptcha\ReCaptchaValidator2::class],
+			[['verifyCode'], CaptchaValidator::class],
 		];
 	}
 

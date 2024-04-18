@@ -25,8 +25,7 @@
     "yiisoft/yii2": "*",
     "yiisoft/yii2-bootstrap5": "*",
     "yiisoft/yii2-composer": "*",
-    "yiisoft/yii2-swiftmailer": "*",
-    "himiklab/yii2-recaptcha-widget": "*"
+    "yiisoft/yii2-swiftmailer": "*"
   },
   "autoload": {
     "psr-4": {
