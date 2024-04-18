@@ -20,47 +20,47 @@ use yii\db\Expression;
  */
 class User extends BaseUser
 {
-	/**
-	 * @inheritdoc
-	 */
-	public $identityClass = '\auth\models\User';
+  /**
+   * @inheritdoc
+   */
+  public $identityClass = '\auth\models\User';
 
-	/**
-	 * @inheritdoc
-	 */
-	public $enableAutoLogin = true;
+  /**
+   * @inheritdoc
+   */
+  public $enableAutoLogin = true;
 
-	/**
-	 * @inheritdoc
-	 */
-	public $loginUrl = ['/auth/default/login'];
+  /**
+   * @inheritdoc
+   */
+  public $loginUrl = ['/auth/default/login'];
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function afterLogin($identity, $cookieBased, $duration)
-	{
-		parent::afterLogin($identity, $cookieBased, $duration);
-		$this->identity->setScenario(self::EVENT_AFTER_LOGIN);
-		$this->identity->setAttribute('last_visit_time', new Expression('CURRENT_TIMESTAMP'));
-		// $this->identity->setAttribute('login_ip', ip2long(\Yii::$app->getRequest()->getUserIP()));
-		$this->identity->save(false);
-	}
+  /**
+   * @inheritdoc
+   */
+  protected function afterLogin($identity, $cookieBased, $duration)
+  {
+    parent::afterLogin($identity, $cookieBased, $duration);
+    $this->identity->setScenario(self::EVENT_AFTER_LOGIN);
+    $this->identity->setAttribute('last_visit_time', new Expression('CURRENT_TIMESTAMP'));
+    // $this->identity->setAttribute('login_ip', ip2long(\Yii::$app->getRequest()->getUserIP()));
+    $this->identity->save(false);
+  }
 
-	public function getIsSuperAdmin()
-	{
-		if ($this->isGuest) {
-			return false;
-		}
-		return $this->identity->getIsSuperAdmin();
-	}
+  public function getIsSuperAdmin()
+  {
+    if ($this->isGuest) {
+      return false;
+    }
+    return $this->identity->getIsSuperAdmin();
+  }
 
-	public function checkAccess($operation, $params = [], $allowCaching = true)
-	{
-		// Always return true when SuperAdmin user
-		if ($this->getIsSuperAdmin()) {
-			return true;
-		}
-		return parent::can($operation, $params, $allowCaching);
-	}
+  public function checkAccess($operation, $params = [], $allowCaching = true)
+  {
+    // Always return true when SuperAdmin user
+    if ($this->getIsSuperAdmin()) {
+      return true;
+    }
+    return parent::can($operation, $params, $allowCaching);
+  }
 }
