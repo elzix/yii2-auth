@@ -51,18 +51,18 @@ class User extends ActiveRecord implements IdentityInterface
           self::EVENT_BEFORE_DELETE => 'delete_time',
         ],
         'value' => function () {
-          return new Expression('CURRENT_TIMESTAMP');
+          return new Expression( 'CURRENT_TIMESTAMP' );
         }
       ],
     ];
   }
 
-  public function getStatus($status = null)
+  public function getStatus( $status = null )
   {
-    if ($status === null) {
-      return Yii::t('auth.user', $this->statuses[$this->status]);
+    if ( $status === null ) {
+      return Yii::t( 'auth.user', $this->statuses[$this->status] );
     }
-    return Yii::t('auth.user', $this->statuses[$status]);
+    return Yii::t( 'auth.user', $this->statuses[$status] );
   }
 
   /**
@@ -71,9 +71,9 @@ class User extends ActiveRecord implements IdentityInterface
    * @param string|integer $id the ID to be looked for
    * @return IdentityInterface|null the identity object that matches the given ID.
    */
-  public static function findIdentity($id)
+  public static function findIdentity( $id )
   {
-    return static::findOne($id);
+    return static::findOne( $id );
   }
 
   /**
@@ -82,19 +82,25 @@ class User extends ActiveRecord implements IdentityInterface
    * @param string $username
    * @return null|User
    */
-  public static function findByUsername($username)
+  public static function findByUsername( $username )
   {
     return static::find()
-           ->andWhere(['and', ['or', ['username' => $username], ['email' => $username]], ['status' => static::STATUS_ACTIVE]])
-           ->one();
+      ->andWhere( [
+        'and',
+        ['or', ['username' => $username], ['email' => $username]],
+        ['status' => static::STATUS_ACTIVE]
+      ] )
+      ->one();
   }
 
   /**
    * @inheritdoc
    */
-  public static function findIdentityByAccessToken($token, $type = null)
+  public static function findIdentityByAccessToken( $token, $type = null )
   {
-    throw new \yii\base\NotSupportedException('"findIdentityByAccessToken" is not implemented.');
+    throw new \yii\base\NotSupportedException(
+      '"findIdentityByAccessToken" is not implemented.'
+    );
   }
 
   /**
@@ -103,20 +109,20 @@ class User extends ActiveRecord implements IdentityInterface
    * @param string $token password reset token
    * @return static|null
    */
-  public static function findByPasswordResetToken($token)
+  public static function findByPasswordResetToken( $token )
   {
-    $expire = Yii::$app->getModule('auth')->passwordResetTokenExpire;
-    $parts = explode('_', $token);
-    $timestamp = (int)end($parts);
-    if ($timestamp + $expire < time()) {
+    $expire = Yii::$app->getModule( 'auth' )->passwordResetTokenExpire;
+    $parts = explode( '_', $token );
+    $timestamp = (int)end( $parts );
+    if ( $timestamp + $expire < time() ) {
       // token expired
       return null;
     }
 
-    return static::findOne([
+    return static::findOne( [
       'password_reset_token' => $token,
       'status' => self::STATUS_ACTIVE,
-    ]);
+    ] );
   }
 
   /**
@@ -139,7 +145,7 @@ class User extends ActiveRecord implements IdentityInterface
    * @param string $authKey
    * @return boolean if auth key is valid for current user
    */
-  public function validateAuthKey($authKey)
+  public function validateAuthKey( $authKey )
   {
     return $this->auth_key === $authKey;
   }
@@ -150,9 +156,12 @@ class User extends ActiveRecord implements IdentityInterface
      * @param string $password password to validate
      * @return boolean if password provided is valid for current user
      */
-    public function validatePassword($password)
+    public function validatePassword( $password )
     {
-        return Yii::$app->security->validatePassword($password, $this->password_hash);
+        return Yii::$app->security->validatePassword(
+          $password,
+          $this->password_hash
+        );
     }
 
     public function getPassword()
@@ -164,10 +173,11 @@ class User extends ActiveRecord implements IdentityInterface
      *
      * @param string $password
      */
-    public function setPassword($password)
+    public function setPassword( $password )
     {
-        if (!empty($password) and $password != $this->password_hash) {
-            $this->password_hash = Yii::$app->security->generatePasswordHash($password);
+        if ( ! empty( $password ) and $password != $this->password_hash ) {
+            $this->password_hash =
+              Yii::$app->security->generatePasswordHash( $password );
         }
     }
 
@@ -184,7 +194,7 @@ class User extends ActiveRecord implements IdentityInterface
    */
   public static function tableName()
   {
-    return Yii::$app->getModule('auth')->tableMap['User'];
+    return Yii::$app->getModule( 'auth' )->tableMap['User'];
   }
 
   /**
@@ -194,21 +204,42 @@ class User extends ActiveRecord implements IdentityInterface
   {
     return [
       ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            [
-                'status',
-                'in',
-                'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED, self::STATUS_INACTIVE, self::STATUS_SUSPENDED]
-            ],
+        [
+          'status',
+          'in',
+          'range' => [
+            self::STATUS_ACTIVE,
+            self::STATUS_DELETED,
+            self::STATUS_INACTIVE,
+            self::STATUS_SUSPENDED
+          ]
+        ],
       ['username', 'filter', 'filter' => 'trim'],
       ['username', 'required'],
-      ['username', 'unique', 'message' => Yii::t('auth.user', 'This username has already been taken.')],
+      [
+        'username',
+        'unique',
+        'message' =>
+          Yii::t( 'auth.user', 'This username has already been taken.' )
+      ],
       ['username', 'string', 'min' => 2, 'max' => 255],
 
       ['email', 'filter', 'filter' => 'trim'],
       ['email', 'required'],
       ['email', 'email'],
-      ['email', 'unique', 'message' => Yii::t('auth.user', 'This email address has already been taken.')],
-      ['email', 'exist', 'message' => Yii::t('auth.user', 'There is no user with such email.'), 'on' => 'requestPasswordResetToken'],
+      [
+        'email',
+        'unique',
+        'message' =>
+          Yii::t( 'auth.user', 'This email address has already been taken.' )
+      ],
+      [
+        'email',
+        'exist',
+        'message' =>
+          Yii::t( 'auth.user', 'There is no user with such email.' ),
+          'on' => 'requestPasswordResetToken'
+      ],
     ];
   }
 
@@ -229,16 +260,16 @@ class User extends ActiveRecord implements IdentityInterface
   {
     return [
       'id' => 'ID',
-      'username' => Yii::t('auth.user', 'Username'),
-      'email' => Yii::t('auth.user', 'Email'),
-      'password_hash' => Yii::t('auth.user', 'Password Hash'),
-      'password_reset_token' => Yii::t('auth.user', 'Password Reset Token'),
-      'auth_key' => Yii::t('auth.user', 'Auth Key'),
-      'status' => Yii::t('auth.user', 'Status'),
-      'last_visit_time' => Yii::t('auth.user', 'Last Visit Time'),
-      'create_time' => Yii::t('auth.user', 'Create Time'),
-      'update_time' => Yii::t('auth.user', 'Update Time'),
-      'delete_time' => Yii::t('auth.user', 'Delete Time'),
+      'username' => Yii::t( 'auth.user', 'Username' ),
+      'email' => Yii::t( 'auth.user', 'Email' ),
+      'password_hash' => Yii::t( 'auth.user', 'Password Hash' ),
+      'password_reset_token' => Yii::t( 'auth.user', 'Password Reset Token' ),
+      'auth_key' => Yii::t( 'auth.user', 'Auth Key' ),
+      'status' => Yii::t( 'auth.user', 'Status' ),
+      'last_visit_time' => Yii::t( 'auth.user', 'Last Visit Time' ),
+      'create_time' => Yii::t( 'auth.user', 'Create Time' ),
+      'update_time' => Yii::t( 'auth.user', 'Update Time' ),
+      'delete_time' => Yii::t( 'auth.user', 'Delete Time' ),
     ];
   }
 
@@ -247,12 +278,12 @@ class User extends ActiveRecord implements IdentityInterface
    */
   public function getProfileFieldValue()
   {
-    return $this->hasOne(ProfileFieldValue::class, ['id' => 'user_id']);
+    return $this->hasOne( ProfileFieldValue::class, ['id' => 'user_id'] );
   }
 
   public function beforeValidate()
   {
-    if (parent::beforeValidate()) {
+    if ( parent::beforeValidate() ) {
 
       return true;
     }
@@ -260,14 +291,17 @@ class User extends ActiveRecord implements IdentityInterface
     return false;
   }
 
-  public function beforeSave($insert)
+  public function beforeSave( $insert )
   {
-    if (parent::beforeSave($insert)) {
-      if ($this->isNewRecord) {
+    if ( parent::beforeSave( $insert ) ) {
+      if ( $this->isNewRecord ) {
         $this->auth_key = Yii::$app->getSecurity()->generateRandomString();
       }
-      if ($this->getScenario() !== \yii\web\User::EVENT_AFTER_LOGIN) {
-        $this->setAttribute('update_time', new Expression('CURRENT_TIMESTAMP'));
+      if ( $this->getScenario() !== \yii\web\User::EVENT_AFTER_LOGIN ) {
+        $this->setAttribute(
+          'update_time',
+          new Expression( 'CURRENT_TIMESTAMP' )
+        );
       }
 
       return true;
@@ -278,22 +312,26 @@ class User extends ActiveRecord implements IdentityInterface
   public function delete()
   {
     $db = static::getDb();
-    $transaction = $this->isTransactional(self::OP_DELETE) && $db->getTransaction() === null ? $db->beginTransaction() : null;
+    $transaction =
+      $this->isTransactional( self::OP_DELETE )
+        && $db->getTransaction() === null
+          ? $db->beginTransaction()
+          : null;
     try {
       $result = false;
-      if ($this->beforeDelete()) {
-        $this->setAttribute('status', static::STATUS_DELETED);
-        $this->save(false);
+      if ( $this->beforeDelete() ) {
+        $this->setAttribute( 'status', static::STATUS_DELETED );
+        $this->save( false );
       }
-      if ($transaction !== null) {
-        if ($result === false) {
+      if ( $transaction !== null ) {
+        if ( $result === false ) {
           $transaction->rollback();
         } else {
           $transaction->commit();
         }
       }
-    } catch (\Exception $e) {
-      if ($transaction !== null) {
+    } catch ( \Exception $e ) {
+      if ( $transaction !== null ) {
         $transaction->rollback();
       }
       throw $e;
@@ -308,17 +346,20 @@ class User extends ActiveRecord implements IdentityInterface
    */
   public function getIsSuperAdmin()
   {
-    if ($this->_isSuperAdmin !== null) {
+    if ( $this->_isSuperAdmin !== null ) {
       return $this->_isSuperAdmin;
     }
 
-    $this->_isSuperAdmin = in_array($this->username, Yii::$app->getModule('auth')->superAdmins);
+    $this->_isSuperAdmin = in_array(
+      $this->username,
+      Yii::$app->getModule( 'auth' )->superAdmins
+    );
     return $this->_isSuperAdmin;
   }
 
-  public function login($duration = 0)
+  public function login( $duration = 0 )
   {
-    return Yii::$app->user->login($this, $duration);
+    return Yii::$app->user->login( $this, $duration );
   }
 
   /**
@@ -326,7 +367,8 @@ class User extends ActiveRecord implements IdentityInterface
    */
   public function generatePasswordResetToken()
   {
-    $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
+    $this->password_reset_token =
+      Yii::$app->security->generateRandomString() . '_' . time();
   }
 
   /**

@@ -8,17 +8,21 @@ use yii\widgets\DetailView;
  * @var auth\models\User $model
  */
 
-$this->title = \Yii::t('auth.user', 'View Profile');
+$this->title = \Yii::t( 'auth.user', 'View Profile' );
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="panel panel-primary user-view">
   <div class="panel-heading">
     <h3 class="panel-title">
-      <?= Html::encode($this->title) ?>
-      <?= Html::a('<i class="glyphicon glyphicon-pencil"></i>', ['update'], ['class' => 'pull-right']) ?>
+      <?= Html::encode( $this->title ) ?>
+      <?= Html::a(
+        '<i class="glyphicon glyphicon-pencil"></i>',
+        ['update'],
+        ['class' => 'pull-right']
+      ) ?>
     </h3>
   </div>
-  <?php echo DetailView::widget([
+  <?php echo DetailView::widget( [
     'model' => $model,
     'attributes' => [
       //'id',
@@ -32,5 +36,5 @@ $this->params['breadcrumbs'][] = $this->title;
       'create_time',
       'update_time',
     ],
-  ]); ?>
+  ] ); ?>
 </div>

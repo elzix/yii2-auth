@@ -9,23 +9,30 @@ use yii\widgets\DetailView;
  */
 
 $this->title = $model->username;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('auth.user', 'Users'), 'url' => ['index']];
+$this->params['breadcrumbs'][] =
+  ['label' => Yii::t( 'auth.user', 'Users' ), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-view">
 
-  <h1>View User: '<?= Html::encode($this->title) ?>'</h1>
+  <h1>View User: '<?= Html::encode( $this->title ) ?>'</h1>
 
   <p>
-    <?= Html::a(Yii::t('auth.user', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-    <?php echo Html::a(Yii::t('auth.user', 'Delete'), ['delete', 'id' => $model->id], [
-      'class' => 'btn btn-danger',
-      'data-confirm' => Yii::t('app', 'Are you sure to delete this user?'),
-      'data-method' => 'post',
-    ]); ?>
+    <?= Html::a(
+      Yii::t( 'auth.user', 'Update' ),
+      ['update', 'id' => $model->id], ['class' => 'btn btn-primary']
+    ) ?>
+    <?php echo Html::a(
+      Yii::t( 'auth.user', 'Delete' ),
+      ['delete', 'id' => $model->id], [
+        'class' => 'btn btn-danger',
+        'data-confirm' => Yii::t( 'app', 'Are you sure to delete this user?' ),
+        'data-method' => 'post',
+      ]
+    ); ?>
   </p>
 
-  <?php echo DetailView::widget([
+  <?php echo DetailView::widget( [
     'model' => $model,
     'attributes' => [
       //'id',
@@ -43,6 +50,6 @@ $this->params['breadcrumbs'][] = $this->title;
       'update_time',
       'delete_time',
     ],
-  ]); ?>
+  ] ); ?>
 
 </div>

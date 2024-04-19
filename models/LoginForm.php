@@ -41,10 +41,10 @@ class LoginForm extends Model
   public function attributeLabels()
   {
     return [
-      'username' => Yii::t('auth.user', 'Username or Email'),
-      'password' => Yii::t('auth.user', 'Password'),
-      'rememberMe' => Yii::t('auth.user', 'Remember Me'),
-      'verifyCode' => Yii::t('auth.user', 'Verify Code'),
+      'username' => Yii::t( 'auth.user', 'Username or Email' ),
+      'password' => Yii::t( 'auth.user', 'Password' ),
+      'rememberMe' => Yii::t( 'auth.user', 'Remember Me' ),
+      'verifyCode' => Yii::t( 'auth.user', 'Verify Code' ),
     ];
   }
 
@@ -56,8 +56,11 @@ class LoginForm extends Model
   public function validatePassword()
   {
     $user = $this->getUser();
-    if (!$user || !$user->validatePassword($this->password)) {
-      $this->addError('password', Yii::t('auth.user', 'Incorrect username or password.'));
+    if ( ! $user || ! $user->validatePassword( $this->password ) ) {
+      $this->addError(
+        'password',
+        Yii::t( 'auth.user', 'Incorrect username or password.' )
+      );
     }
   }
 
@@ -68,8 +71,12 @@ class LoginForm extends Model
    */
   public function login()
   {
-    if ($this->validate()) {
-      return $this->getUser()->login($this->rememberMe ? Yii::$app->getModule('auth')->rememberMeTime : 0);
+    if ( $this->validate() ) {
+      return $this->getUser()->login(
+        $this->rememberMe
+          ? Yii::$app->getModule( 'auth' )->rememberMeTime
+          : 0
+      );
     } else {
       return false;
     }
@@ -82,8 +89,8 @@ class LoginForm extends Model
    */
   private function getUser()
   {
-    if ($this->_user === false) {
-      $this->_user = User::findByUsername($this->username);
+    if ( $this->_user === false ) {
+      $this->_user = User::findByUsername( $this->username );
     }
     return $this->_user;
   }

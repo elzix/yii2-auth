@@ -38,7 +38,7 @@ return [
       // Alternative: @common/views/layouts/main
       'layout' => '//homepage', // Layout when not logged in yet
       'layoutLogged' => '//main', // Layout for logged in users
-      // Custom views optional
+      // Custom views (optional)
       // 'loginTemplate' => '',
       // 'signupTemplate' => '',
       // 'requestTemplate' => '',

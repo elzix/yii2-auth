@@ -24,16 +24,22 @@ class ResetPasswordForm extends Model
    * @param  array $config name-value pairs that will be used to initialize the object properties
    * @throws \yii\base\InvalidArgumentException if token is empty or not valid
    */
-  public function __construct($token, $config = [])
+  public function __construct( $token, $config = [] )
   {
-    if (empty($token) || !is_string($token)) {
-      throw new InvalidArgumentException(Yii::t('auth.reset-password', 'Password reset token cannot be blank.'));
+    if ( empty( $token ) || ! is_string( $token ) ) {
+      throw new InvalidArgumentException( Yii::t(
+        'auth.reset-password',
+        'Password reset token cannot be blank.'
+      ) );
     }
-    $this->_user = User::findByPasswordResetToken($token);
-    if (!$this->_user) {
-      throw new InvalidArgumentException(Yii::t('auth.reset-password', 'Wrong password reset token.'));
+    $this->_user = User::findByPasswordResetToken( $token );
+    if ( ! $this->_user ) {
+      throw new InvalidArgumentException( Yii::t(
+        'auth.reset-password',
+        'Wrong password reset token.'
+      ) );
     }
-    parent::__construct($config);
+    parent::__construct( $config );
   }
 
   /**
@@ -55,7 +61,7 @@ class ResetPasswordForm extends Model
   public function resetPassword()
   {
     $user = $this->_user;
-    $user->setScenario('resetPassword');
+    $user->setScenario( 'resetPassword' );
     $user->password = $this->password;
     $user->removePasswordResetToken();
 
@@ -68,7 +74,7 @@ class ResetPasswordForm extends Model
   public function attributeLabels()
   {
     return [
-      'password' => \Yii::t('auth.user', 'Password'),
+      'password' => \Yii::t( 'auth.user', 'Password' ),
     ];
   }
 }

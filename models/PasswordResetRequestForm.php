@@ -23,7 +23,8 @@ class PasswordResetRequestForm extends Model
       ['email', 'exist',
         'targetClass' => '\auth\models\User',
         'filter' => ['status' => User::STATUS_ACTIVE],
-        'message' => Yii::t('auth.reset-password', 'There is no user with such email.')
+        'message' =>
+          Yii::t( 'auth.reset-password', 'There is no user with such email.' )
       ],
     ];
   }
@@ -36,19 +37,28 @@ class PasswordResetRequestForm extends Model
   public function sendEmail()
   {
     /* @var $user User */
-    $user = User::findOne([
+    $user = User::findOne( [
       'status' => User::STATUS_ACTIVE,
       'email' => $this->email,
-    ]);
+    ] );
 
-    if ($user) {
+    if ( $user ) {
       $user->generatePasswordResetToken();
-      if ($user->save()) {
-        return \Yii::$app->mailer->compose('@auth/views/mail/passwordResetToken', ['user' => $user])
-                     ->setFrom([\Yii::$app->getModule('auth')->supportEmail => \Yii::$app->name])
-                     ->setTo($this->email)
-                     ->setSubject(Yii::t('auth.reset-password', 'Password reset for {name}', ['name' => \Yii::$app->name]))
-                     ->send();
+      if ( $user->save() ) {
+        return Yii::$app->mailer->compose(
+          '@auth/views/mail/passwordResetToken',
+          ['user' => $user]
+        )
+          ->setFrom( [
+            Yii::$app->getModule( 'auth' )->supportEmail => Yii::$app->name
+          ] )
+          ->setTo( $this->email )
+          ->setSubject( Yii::t(
+            'auth.reset-password',
+            'Password reset for {name}',
+            ['name' => Yii::$app->name]
+          ) )
+          ->send();
       }
     }
 
@@ -61,7 +71,7 @@ class PasswordResetRequestForm extends Model
   public function attributeLabels()
   {
     return [
-      'email' => Yii::t('auth.user', 'Email')
+      'email' => Yii::t( 'auth.user', 'Email' )
     ];
   }
 }

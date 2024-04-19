@@ -109,8 +109,7 @@ class Module extends \yii\base\Module
       'class' => 'yii\i18n\PhpMessageSource',
       'basePath' => __DIR__.'/messages',
     ];
-    $this->setAliases([
-      '@auth' => __DIR__
-    ]);  }
+    $this->setAliases( ['@auth' => __DIR__] );
+  }
 
 }

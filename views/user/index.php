@@ -9,20 +9,25 @@ use yii\grid\GridView;
  * @var auth\models\UserSearch $searchModel
  */
 
-$this->title = Yii::t('auth.user', 'Users');
+$this->title = Yii::t( 'auth.user', 'Users' );
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
 
-  <h1><?= Html::encode($this->title) ?></h1>
+  <h1><?= Html::encode( $this->title ) ?></h1>
 
-  <?php //echo $this->render('_search', ['model' => $searchModel]); ?>
+  <?php //echo $this->render( '_search', ['model' => $searchModel] ); ?>
 
   <p>
-    <?= Html::a('<i class="glyphicon glyphicon-plus-sign"></i> ' . Yii::t('auth.user', 'Create User'), ['create'], ['class' => 'btn btn-success']) ?>
+    <?= Html::a(
+      '<i class="glyphicon glyphicon-plus-sign"></i> '
+        . Yii::t( 'auth.user', 'Create User' ),
+      ['create'],
+      ['class' => 'btn btn-success']
+    ) ?>
   </p>
 
-  <?php echo GridView::widget([
+  <?php echo GridView::widget( [
     'dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
     'columns' => [
@@ -35,9 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
       // 'auth_key',
       [
         'attribute' => 'status',
-        'value' => function ($model) {
-            return $model->getStatus();
-          }
+        'value' => function ( $model ) { return $model->getStatus(); }
       ],
       'last_visit_time',
       // 'create_time',
@@ -46,6 +49,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
       ['class' => 'yii\grid\ActionColumn'],
     ],
-  ]); ?>
+  ] ); ?>
 
 </div>

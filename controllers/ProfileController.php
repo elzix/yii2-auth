@@ -16,15 +16,15 @@ use yii\web\NotFoundHttpException;
 class ProfileController extends Controller
 {
   /**
-   * @var string the ID of the action that is used when the action ID is not specified
-   * in the request. Defaults to 'index'.
+   * @var string the ID of the action that is used when the action ID
+   * is not specified in the request. Defaults to 'index'.
    */
   public $defaultAction = 'view';
 
   public function init()
   {
     $layout = $this->module->layoutLogged;
-    if (!empty($layout)) {
+    if ( ! empty( $layout ) ) {
       $this->layout = $layout;
     }
   }
@@ -63,7 +63,8 @@ class ProfileController extends Controller
 
   /**
    * Updates the current User model.
-   * If update is successful, the browser will be redirected to the 'view' page.
+   * If update is successful,
+   * the browser will be redirected to the 'view' page.
    *
    * @param integer $id
    * @return mixed
@@ -71,10 +72,10 @@ class ProfileController extends Controller
   public function actionUpdate()
   {
     $model = $this->findModel();
-    $model->setScenario('profile');
+    $model->setScenario( 'profile' );
 
-    if ($model->load($_POST) && $model->save()) {
-      return $this->redirect(['view', 'id' => $model->id]);
+    if ( $model->load( $_POST ) && $model->save() ) {
+      return $this->redirect( ['view', 'id' => $model->id] );
     } else {
       $update = $this->module->profileUpdateTemplate;
       $update = empty( $update ) ? 'update' : $update;
@@ -91,10 +92,10 @@ class ProfileController extends Controller
    */
   protected function findModel()
   {
-    if (($model = Yii::$app->user->getIdentity()) !== null) {
+    if ( ( $model = Yii::$app->user->getIdentity() ) !== null ) {
       return $model;
     } else {
-      throw new NotFoundHttpException('The requested page does not exist.');
+      throw new NotFoundHttpException( 'The requested page does not exist.' );
     }
   }
 
