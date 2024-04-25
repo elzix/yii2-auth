@@ -49,6 +49,8 @@ return [
       // 'userViewTemplate' => '',
       // 'userCreateTemplate' => '',
       // 'userUpdateTemplate' => '',
+      // Other Options
+      // 'pageRedirect' => true // true to Redirect to home; or '/some/url'
       'attemptsBeforeCaptcha' => 3, // Optional
       'supportEmail' => 'support@mydomain.com', // Email for notifications
       'passwordResetTokenExpire' => 3600, // Seconds for token expiration

@@ -39,6 +39,11 @@ class Module extends \yii\base\Module
     public $signupTemplate;
 
     /**
+     * Redirect user to Homepage after successful Signup
+     */
+    public $pageRedirect = false;
+
+    /**
      * Custom Request Password Reset Token page template
      */
     public $requestTemplate;

@@ -98,9 +98,29 @@ class DefaultController extends Controller
   {
     $model = new SignupForm();
     if ( $model->load( Yii::$app->request->post() ) ) {
-      if ( $user = $model->signup() ) {
-        if ( Yii::$app->getUser()->login( $user ) ) {
-          return $this->goHome();
+      if ( $model->validate() ) {
+        if ( $user = $model->signup() ) {
+          Yii::$app->getSession()->setFlash( 'success',
+            Yii::t( 'auth.verify',
+              'Thank you {name}, for registering. ' .
+              'Kindly check your email to verify your account.',
+              [ 'name'=>$user->username ] ) );
+
+          if( is_bool( $this->module->pageRedirect ) ){
+            if( $this->module->pageRedirect ) return $this->goHome();
+            else $this->redirect( ['login'] );
+          } else {
+            $this->redirect( $this->module->pageRedirect );
+          }
+        }
+      } else {
+        // validation failed: $errors is an array containing error messages
+        $messages = '';
+        foreach ( $model->errors as $errors ) {
+          $messages .= '<p>' . $errors[0] . '</p>';
+          Yii::$app->getSession()->setFlash(
+            'error', Yii::t( 'auth.verify', $messages )
+          );
         }
       }
     }
@@ -113,19 +133,35 @@ class DefaultController extends Controller
   public function actionRequestPasswordReset()
   {
     $model = new PasswordResetRequestForm();
-    if ( $model->load( Yii::$app->request->post() ) && $model->validate() ) {
-      if ( $model->sendEmail() ) {
-        Yii::$app->getSession()->setFlash(
-          'success',
-          'Check your email for further instructions.'
-        );
+    if ( $model->load( Yii::$app->request->post() ) ) {
+      if ( $model->validate() ) {
+        if ( $model->sendEmail() ) {
+          Yii::$app->getSession()->setFlash(
+            'success',
+            'Check your email for further instructions.'
+          );
 
-        return $this->goHome();
+          if( is_bool( $this->module->pageRedirect ) ){
+            if( $this->module->pageRedirect ) return $this->goHome();
+            else $this->redirect( ['login'] );
+          } else {
+            $this->redirect( $this->module->pageRedirect );
+          }
+        } else {
+          Yii::$app->getSession()->setFlash(
+            'error',
+            'Sorry, we are unable to reset password for email provided.'
+          );
+        }
       } else {
-        Yii::$app->getSession()->setFlash(
-          'error',
-          'Sorry, we are unable to reset password for email provided.'
-        );
+        // validation failed: $errors is an array containing error messages
+        $messages = '';
+        foreach ( $model->errors as $errors ) {
+          $messages .= '<p>' . $errors[0] . '</p>';
+          Yii::$app->getSession()->setFlash(
+            'error', Yii::t( 'auth.verify', $messages )
+          );
+        }
       }
     }
 
@@ -152,7 +188,12 @@ class DefaultController extends Controller
         'New password was saved.'
       );
 
-      return $this->goHome();
+      if( is_bool( $this->module->pageRedirect ) ){
+        if( $this->module->pageRedirect ) return $this->goHome();
+        else $this->redirect( ['login'] );
+      } else {
+        $this->redirect( $this->module->pageRedirect );
+      }
     }
 
     $reset = $this->module->resetTemplate;
