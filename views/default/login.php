@@ -1,5 +1,4 @@
 <?php
-use Yii;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\captcha\Captcha;
@@ -18,35 +17,16 @@ $class = 'site-login center-block float-none col-lg-3 col-md-4 col-sm-6';
     <h1><?= Html::encode( $this->title ) ?></h1>
   </div>
 
-  <?php $form = ActiveForm::begin( [
-    'id' => 'login-form',
-    'options' => ['class' => 'form-horizontal'],
-    'fieldConfig' => [
-      'template' => "{input}",
-      'labelOptions' => ['class' => 'col-lg-1 control-label'],
-    ],
-  ] ); ?>
+  <?php $form = ActiveForm::begin( ['id' => 'login-form'] ); ?>
 
-  <?= $form->field( $model, 'username', [
-    'options' => ['class' => 'form-group input-group input-group-lg'],
-    'template' => '<span class="input-group-addon">'
-      . '<i class=" glyphicon glyphicon-user"></i></span>{input}'
-  ] )->textInput(
-    ['placeholder' => $model->getAttributeLabel( 'username' )]
-  ) ?>
+  <?= $form->field( $model, 'username' ) ?>
 
-  <?= $form->field( $model, 'password', [
-    'options' => ['class' => 'form-group input-group input-group-lg'],
-    'template' => '<span class="input-group-addon">'
-      . '<i class="glyphicon glyphicon-lock"></i></span>{input}'
-  ] )->passwordInput(
-    ['placeholder' => $model->getAttributeLabel( 'password' )]
-  ) ?>
+  <?= $form->field( $model, 'password' )->passwordInput() ?>
+
   <?php if ( $model->scenario == 'withCaptcha' ): ?>
-    <?= $form->field( $model, 'verifyCode' )->widget( Captcha::class, [
-      'captchaAction' => 'default/captcha',
-      'options' => ['class' => 'form-control']
-    ] ) ?>
+    <?= $form
+      ->field( $model, 'verifyCode' )
+      ->widget( Captcha::class, ['captchaAction' => 'default/captcha'] ) ?>
   <?php endif; ?>
 
   <?= $form->field( $model, 'rememberMe' )->checkbox() ?>

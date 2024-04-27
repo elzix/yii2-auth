@@ -48,6 +48,11 @@ class DefaultController extends Controller
       'error' => [
         'class' => 'yii\web\ErrorAction',
       ],
+      'captcha' => [
+        'class' => \yii\captcha\CaptchaAction::class,
+        'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+        'imageLibrary' => 'gd', // use gd instead of imagick
+      ],
     ];
   }
 
@@ -65,11 +70,18 @@ class DefaultController extends Controller
       $module = Yii::$app->getModule( 'auth' );
     }
 
+    // Add captcha if login attempts pass the threshold
+    $model->setScenario(
+      $this->getLoginAttempts() > $this->module->attemptsBeforeCaptcha
+        ? 'withCaptcha' : 'noCaptcha'
+    );
+
     if ( $model->load( $_POST ) and $model->login() ) {
       // if login is successful, reset the attempts
       $this->setLoginAttempts( 0 );
       return $this->goBack();
     }
+
     //if login is not successful, increase the attempts
     $this->setLoginAttempts( $this->getLoginAttempts() + 1 );
 

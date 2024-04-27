@@ -5,7 +5,6 @@ namespace auth\models;
 use Yii;
 use yii\base\Model;
 use auth\models\User;
-use yii\captcha\CaptchaValidator;
 
 /**
  * LoginForm is the model behind the login form.
@@ -31,7 +30,8 @@ class LoginForm extends Model
       ['password', 'validatePassword'],
       // rememberMe must be a boolean value
       ['rememberMe', 'boolean'],
-      [['verifyCode'], CaptchaValidator::class],
+      // verifyCode must be a captcha value
+      ['verifyCode', 'captcha', 'captchaAction' => 'auth/default/captcha'],
     ];
   }
 
@@ -46,6 +46,17 @@ class LoginForm extends Model
       'rememberMe' => Yii::t( 'auth.user', 'Remember Me' ),
       'verifyCode' => Yii::t( 'auth.user', 'Verify Code' ),
     ];
+  }
+
+  /**
+   * @inheritdoc
+   */
+  public function scenarios()
+  {
+    return [
+      'noCaptcha' => ['username','password'],
+      'withCaptcha' => ['username','password','verifyCode']
+    ] + parent::scenarios();
   }
 
 
