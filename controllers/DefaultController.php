@@ -59,7 +59,7 @@ class DefaultController extends Controller
   public function actionLogin()
   {
     if ( ! Yii::$app->user->isGuest ) {
-      $this->goHome();
+      return $this->goHome();
     }
 
     $model = new LoginForm();
@@ -79,7 +79,13 @@ class DefaultController extends Controller
     if ( $model->load( $_POST ) and $model->login() ) {
       // if login is successful, reset the attempts
       $this->setLoginAttempts( 0 );
-      return $this->goBack();
+      $login = $this->module->loginRedirect;
+      if( is_bool( $this->module->loginRedirect ) ){
+        if( $this->module->loginRedirect ) return $this->goHome();
+        else return $this->goBack();
+      } else {
+        return $this->redirect( $this->module->loginRedirect );
+      }
     }
 
     //if login is not successful, increase the attempts
@@ -118,11 +124,11 @@ class DefaultController extends Controller
               'Kindly check your email to verify your account.',
               [ 'name'=>$user->username ] ) );
 
-          if( is_bool( $this->module->pageRedirect ) ){
-            if( $this->module->pageRedirect ) return $this->goHome();
-            else $this->redirect( ['login'] );
+          if( is_bool( $this->module->signupRedirect ) ){
+            if( $this->module->signupRedirect ) return $this->goHome();
+            else return $this->redirect( ['login'] );
           } else {
-            $this->redirect( $this->module->pageRedirect );
+            return $this->redirect( $this->module->signupRedirect );
           }
         }
       } else {
@@ -153,11 +159,11 @@ class DefaultController extends Controller
             'Check your email for further instructions.'
           );
 
-          if( is_bool( $this->module->pageRedirect ) ){
-            if( $this->module->pageRedirect ) return $this->goHome();
-            else $this->redirect( ['login'] );
+          if( is_bool( $this->module->passwordRedirect ) ){
+            if( $this->module->passwordRedirect ) return $this->goHome();
+            else return $this->redirect( ['login'] );
           } else {
-            $this->redirect( $this->module->pageRedirect );
+            return $this->redirect( $this->module->passwordRedirect );
           }
         } else {
           Yii::$app->getSession()->setFlash(
@@ -200,11 +206,11 @@ class DefaultController extends Controller
         'New password was saved.'
       );
 
-      if( is_bool( $this->module->pageRedirect ) ){
-        if( $this->module->pageRedirect ) return $this->goHome();
-        else $this->redirect( ['login'] );
+      if( is_bool( $this->module->passwordRedirect ) ){
+        if( $this->module->passwordRedirect ) return $this->goHome();
+        else return $this->redirect( ['login'] );
       } else {
-        $this->redirect( $this->module->pageRedirect );
+        return $this->redirect( $this->module->passwordRedirect );
       }
     }
 

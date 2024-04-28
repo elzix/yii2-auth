@@ -39,11 +39,6 @@ class Module extends \yii\base\Module
     public $signupTemplate;
 
     /**
-     * Redirect user to Homepage after successful Signup
-     */
-    public $pageRedirect = false;
-
-    /**
      * Custom Request Password Reset Token page template
      */
     public $requestTemplate;
@@ -84,11 +79,29 @@ class Module extends \yii\base\Module
     public $userUpdateTemplate;
 
     /**
+     * Custom Link to redirect to after login
+     */
+    public $loginRedirect = false;
+
+    /**
+     * Custom Link to redirect to after successful reset or request
+     */
+    public $passwordRedirect = false;
+
+    /**
+     * Custom Link to redirect to after successful Signup
+     */
+    public $signupRedirect = false;
+
+    /**
      * Custom Logged in layout
      */
     public $layoutLogged;
 
-    public $attemptsBeforeCaptcha = 3; // Unsuccessful Login Attempts before Captcha
+    /**
+     * Unsuccessful Login Attempts before Captcha
+     */
+    public $attemptsBeforeCaptcha = 3;
 
     public $referralParam = 'ref';
 

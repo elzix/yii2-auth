@@ -49,8 +49,6 @@ return [
       // 'userViewTemplate' => '',
       // 'userCreateTemplate' => '',
       // 'userUpdateTemplate' => '',
-      // Other Options
-      // 'pageRedirect' => true // true to Redirect to home; or '/some/url'
       'attemptsBeforeCaptcha' => 3, // Optional
       'supportEmail' => 'support@mydomain.com', // Email for notifications
       'passwordResetTokenExpire' => 3600, // Seconds for token expiration
@@ -63,6 +61,16 @@ return [
         'ProfileField' => 'profile_field',
         'ProfileFieldType' => 'profile_field_type',
       ],
+      /**
+       * Custom redirects (optional)
+       *
+       * true = Go Home
+       * false = Go Back
+       * string = Redirect to link
+       */
+      // 'loginRedirect' => '', // After login
+      // 'passwordRedirect' => '', // After password reset or request
+      // 'signupRedirect' => '', // After signup
     ],
     ...
   ],
