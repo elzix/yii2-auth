@@ -150,44 +150,54 @@ class User extends ActiveRecord implements IdentityInterface
     return $this->auth_key === $authKey;
   }
 
-    /**
-     * Validates password
-     *
-     * @param string $password password to validate
-     * @return boolean if password provided is valid for current user
-     */
-    public function validatePassword( $password )
-    {
-        return Yii::$app->security->validatePassword(
-          $password,
-          $this->password_hash
-        );
-    }
+  /**
+   * Validates password
+   *
+   * @param string $password password to validate
+   * @return boolean if password provided is valid for current user
+   */
+  public function validatePassword( $password )
+  {
+    return Yii::$app->security->validatePassword(
+      $password,
+      $this->password_hash
+    );
+  }
 
-    public function getPassword()
-    {
-        return $this->password_hash;
+  public function getPassword()
+  {
+    return $this->password_hash;
+  }
+  /**
+   * Generates password hash from password and sets it to the model
+   *
+   * @param string $password
+   */
+  public function setPassword( $password )
+  {
+    if ( ! empty( $password ) and $password != $this->password_hash ) {
+      $this->password_hash =
+        Yii::$app->security->generatePasswordHash( $password );
     }
-    /**
-     * Generates password hash from password and sets it to the model
-     *
-     * @param string $password
-     */
-    public function setPassword( $password )
-    {
-        if ( ! empty( $password ) and $password != $this->password_hash ) {
-            $this->password_hash =
-              Yii::$app->security->generatePasswordHash( $password );
-        }
-    }
+  }
 
-    /**
-     * Generates "remember me" authentication key
-     */
-    public function generateAuthKey()
-    {
-        $this->auth_key = Yii::$app->security->generateRandomString();
-    }
+  /**
+   * Generates "remember me" authentication key
+   */
+  public function generateAuthKey()
+  {
+    $this->auth_key = Yii::$app->security->generateRandomString();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function getDb()
+  {
+    $db = Yii::$app->getModule( 'auth' );
+    $db = isset( $db->db ) ? $db->db : 'db';
+    return Yii::$app->get( $db );
+  }
 
   /**
    * @inheritdoc

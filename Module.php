@@ -20,6 +20,16 @@ class Module extends \yii\base\Module
      */
     public $relations = array();
 
+    /**
+     * Database to use
+     * @var string
+     */
+    public $db;
+
+    /**
+     * Tables to use
+     * @var array
+     */
     public $tableMap = array(
         'User' => 'User',
         'UserStatus' => 'UserStatus',
@@ -30,76 +40,91 @@ class Module extends \yii\base\Module
 
     /**
      * Custom Login page template
+     * @var string
      */
     public $loginTemplate;
 
     /**
      * Custom Signup page template
+     * @var string
      */
     public $signupTemplate;
 
     /**
      * Custom Request Password Reset Token page template
+     * @var string
      */
     public $requestTemplate;
 
     /**
      * Custom Reset Password page template
+     * @var string
      */
     public $resetTemplate;
 
     /**
      * Custom Profile view page template
+     * @var string
      */
     public $profileTemplate;
 
     /**
      * Custom Profile Update page template
+     * @var string
      */
     public $profileUpdateTemplate;
 
     /**
      * Custom User List page template
+     * @var string
      */
     public $userTemplate;
 
     /**
      * Custom Single User page template
+     * @var string
      */
     public $userViewTemplate;
 
     /**
      * Custom User List page template
+     * @var string
      */
     public $userCreateTemplate;
 
     /**
      * Custom User Update page template
+     * @var string
      */
     public $userUpdateTemplate;
 
     /**
      * Custom Link to redirect to after login
+     * @var string|boolean
      */
     public $loginRedirect = false;
 
     /**
      * Custom Link to redirect to after successful reset or request
+     * @var string|boolean
      */
     public $passwordRedirect = false;
 
     /**
      * Custom Link to redirect to after successful Signup
+     * @var string|boolean
      */
     public $signupRedirect = false;
 
     /**
      * Custom Logged in layout
+     * @var string
      */
     public $layoutLogged;
 
     /**
      * Unsuccessful Login Attempts before Captcha
+     * @var int
      */
     public $attemptsBeforeCaptcha = 3;
 
